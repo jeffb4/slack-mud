@@ -1,5 +1,8 @@
 (ns slack-mud.commands)
 
+(require
+  '[clojure.string :as str])
+
 (def commands (ref {:aliases []}))
 
 ; List of commands allowed for various user types
@@ -38,7 +41,8 @@
   (let [command_file file
         command (read-string (slurp (.getAbsolutePath command_file)))
         command_id (str/replace (.getName file) #"\.clj" "")
-        alias_vec (map (fn [alias] ({alias command_id})) (:aliases command))]
+        alias_vec (map #({% command_id}) (:aliases (eval command)))]
+    (prn alias_vec)
     (conj @commands
           {command_id command
            :aliases (conj (:aliases @commands) alias_vec)})))
