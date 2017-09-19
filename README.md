@@ -1,6 +1,6 @@
-# sbotdemo
+# slack-mud
 
-FIXME: description
+A Slack bot that runs a MUD
 
 ## Installation
 
