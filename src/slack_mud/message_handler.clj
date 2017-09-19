@@ -8,7 +8,6 @@
          '[clojure.string :as str])
 
 
-
 (defmulti handler
   (fn[x y e] (x :type)))
 
