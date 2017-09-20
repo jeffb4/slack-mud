@@ -21,7 +21,7 @@
   (let [rtm-cxn (clj-slack.rtm/connect
                  {:api-url "https://slack.com/api"
                   :token (:token @config/slack)})]
-    (println (:url rtm-cxn))
+    (log/debug "rtm-cxn:" rtm-cxn)
     (config/update-wsurl (:url rtm-cxn))
     (while true
       (do
