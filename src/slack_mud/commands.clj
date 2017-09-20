@@ -3,7 +3,7 @@
 (require '[clojure.string :as str]
          '[clojure.tools.logging :as log])
 
-(def commands (ref {:aliases []}))
+(def commands (ref {:aliases {}}))
 
 ; List of commands allowed for various user types
 (def commands_lists (ref {:player #{"repl" "look"}
