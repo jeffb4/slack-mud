@@ -19,14 +19,21 @@
       (prn @users/users)
       (users/load-user (java.io.File.
                           (str "resources/users/" (:user message))))))
-  (commands/parse-command
-    (:text message)
-    (assoc (get @users/users (:user message))
-           :conn conn
-           :channel (:channel message)))
-  (if-not (re-matches #"is currently in Do Not Disturb mode" (:text message))
-    (if-not (= (get message :reply_to nil) 0)
-      (s/put! conn (generate-string {:type "message" :channel (:channel message) :text (:text message)})))))
+  (if-not (and
+            (= (get message :reply_to nil) 0)
+            (re-matches #"is currently in Do Not Disturb mode" (:text message)))
+    (commands/parse-command
+      (:text message)
+      (assoc (get @users/users (:user message))
+            :conn conn
+            :channel (:channel message)))
+
+    ; stupid echo debugger
+    (s/put! conn
+            (generate-string
+              {:type "message"
+                :channel (:channel message)
+                :text (:text message)}))))
 
 (defmethod handler "hello" [message conn error]
   (println "Received hello"))
