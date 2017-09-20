@@ -52,7 +52,7 @@
   (print "Receive unknown message type")
   (if (= message {})
     (do
-      (println "Received empty message, error")
+      (log/error "Received empty message, error")
       (deliver error "Empty"))))
 
 (defn send_message
