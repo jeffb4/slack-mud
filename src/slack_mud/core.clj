@@ -29,9 +29,9 @@
               error (promise)]
           (s/consume
             (fn [message]
-              (def pmessage (parse-string message true))
-              (prn pmessage)
-              (message-handler/handler pmessage conn error))
+              (let [parsed_message (parse-string message true)]
+                (log/debug "parsed_message:" parsed_message)
+                (message-handler/handler parsed_message conn error)))
             conn)
           @error)))
     (println "True evaluated to false")))
