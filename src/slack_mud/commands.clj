@@ -16,23 +16,22 @@
   (let [split_text (str/split message #" ")
         aliases (:aliases @commands)
         command (first split_text)
-        command_id (get aliases command)
-        command_fn (get @commands command_id)
-        user_command_list (get user :command_list)
+        user_command_list (:command_list user)
         user_commands (get @commands_lists user_command_list)]
-    (println "In parse-command")
-    (prn split_text)
-    (prn command)
-    (prn user)
-    (prn user_command_list)
-    (prn user_commands)
-    (if (get user_commands command)
-      (do
-        (println (str "running command " command))
+    (log/debug "Aliases:" aliases)
+    ; if command is valid (in all aliases) and the alias
+    ; dereference is allowed for user, proceed
+    (if (and (get aliases command)
+             (get user_commands (get aliases command)))
+      (let [command_id (get aliases command)
+            command_fn (:fn (get @commands command_id))]
+        (log/info "Running command:"
+                  command "with command_id" command_id)
         ((eval command_fn)
          (str/join " " (drop 1 split_text))
          user))
-      (println (str "NOT running command " command)))))
+      (do
+        (log/warn "Not running command:" command (get aliases command))))))
 
 (defn load-command
   "Load a command file, returns updated command map"
