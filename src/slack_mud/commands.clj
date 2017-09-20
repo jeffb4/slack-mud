@@ -12,7 +12,7 @@
 (defn parse-command
   "Parse and run a command from a user, given a command string and user"
   [message user]
-  (prn message)
+  (log/debug "In parse-command with" [message user])
   (let [split_text (str/split message #" ")
         aliases (get @commands :aliases)
         command (first split_text)
