@@ -1,17 +1,15 @@
 { :aliases ["look" "l"]
   :fn (fn [message user]
-        (do
-          (clojure.tools.logging/info "In look with message:" [message user])
+        (let [room (get @slack-mud.rooms/rooms (:location user))]
+          (clojure.tools.logging/info
+            "In look with:" message user room)
           (try
-            ((juxt
-              #(slack-mud.message-handler/send_message
-                  (str "Short: "
-                    (:shortdesc %1))
-                  user)
-              #(slack-mud.message-handler/send_message
-                  (str "Desc: "
-                    (:desc %1))
-                  user))
-
-             (get @slack-mud.rooms/rooms (:location user)))
-            (catch RuntimeException e (prn "Runtime exception:")))))}
+            (doall
+              (map
+                #(slack-mud.message-handler/send_message
+                    % user)
+                [(str "Short: " (:shortdesc room))
+                 (str "Desc: " (:desc room))]))
+            (catch RuntimeException e
+                   (clojure.tools.logging/error
+                    "Runtime exception:" e)))))}
