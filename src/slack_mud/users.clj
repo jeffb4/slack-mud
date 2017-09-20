@@ -10,7 +10,8 @@
   (let [user {:name "Unknown Name"
               :desc "Generic description"
               :level 1
-              :command_list :player}]
+              :command_list :player
+              :location "lobby"}]
     (spit (.getAbsolutePath file) (pr-str user))
     (dosync
       (alter users conj {(.getName file) user}))))
