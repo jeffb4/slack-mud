@@ -10,4 +10,6 @@ pom.xml.asc
 .hgignore
 .hg/
 /.vscode
-/resources/users/U*
+/resources/users
+/config.yml
+/slack.log
