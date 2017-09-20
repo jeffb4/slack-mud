@@ -9,7 +9,13 @@
          '[slack-mud.commands :as commands])
 
 (defmulti handler
-  (fn[x y e] (x :type)))
+  (fn[x y e]
+    (let [t (x :type)
+          ok (x :ok)]
+      (if (and (not t)
+               ok)
+        :ok
+        t))))
 
 (defmethod handler "message" [message conn error]
   (println "Matched message type, parsing as command")
@@ -48,6 +54,9 @@
 
 (defmethod handler "desktop_notification" [message conn error]
   (log/debug "Discarding desktop_notification"))
+
+(defmethod handler :ok [message conn error]
+  (log/info "Received :ok"))
 
 (defmethod handler :default [message conn error]
   (log/warn "Receive unknown message type:" message conn error)
