@@ -15,7 +15,9 @@
   "Simple Slack bot"
   [& args]
   (config/read-config)
-  (commands/load-commands "resources/commands")
+  (rooms/load-rooms "resources/rooms")
+  (log/debug "rooms:" @rooms/rooms)
+  (commands/load-commands commands/commands "resources/commands")
   (let [rtm-cxn (clj-slack.rtm/connect
                  {:api-url "https://slack.com/api"
                   :token (:token @config/slack)})]
