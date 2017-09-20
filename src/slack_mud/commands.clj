@@ -14,7 +14,7 @@
   [message user]
   (log/debug "In parse-command with" [message user])
   (let [split_text (str/split message #" ")
-        aliases (get @commands :aliases)
+        aliases (:aliases @commands)
         command (first split_text)
         command_id (get aliases command)
         command_fn (get @commands command_id)
