@@ -40,16 +40,18 @@
   (let [command_file file
         command (read-string (slurp (.getAbsolutePath command_file)))
         command_id (str/replace (.getName file) #"\.clj" "")
-        alias_vec (map #({% command_id}) (:aliases (eval command)))]
-    (prn alias_vec)
-    (conj @commands
+        alias_map (reduce #(assoc %1 %2 command_id)
+                          {}
+                          (:aliases (eval command)))]
+    (log/debug "alias_map:" alias_map)
+    (conj commands
           {command_id command
-           :aliases (conj (:aliases @commands) alias_vec)})))
+           :aliases (conj (:aliases commands) alias_map)})))
 
 (defn load-commands
   "Given a dir, return a map with an entry corresponding to each file
   in it. Files should be maps containing command data."
-  [dir]
+  [commands dir]
   (dosync
-    (alter commands conj (reduce load-command commands
+    (alter commands conj (reduce load-command @commands
                           (.listFiles (java.io.File. dir))))))
