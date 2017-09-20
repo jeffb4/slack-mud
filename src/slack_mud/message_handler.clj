@@ -19,7 +19,7 @@
       (prn @users/users)
       (users/load-user (java.io.File.
                           (str "resources/users/" (:user message))))))
-  (if-not (and
+  (if-not (or
             (= (get message :reply_to nil) 0)
             (re-matches #"is currently in Do Not Disturb mode" (:text message)))
     (commands/parse-command
