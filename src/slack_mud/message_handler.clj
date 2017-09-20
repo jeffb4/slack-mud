@@ -2,11 +2,11 @@
 
 (require '[cheshire.core :refer :all]
          '[manifold.stream :as s]
+         '[clojure.tools.logging :as log]
+         '[clojure.string :as str]
          '[slack-mud.users :as users]
          '[slack-mud.config :as config]
-         '[slack-mud.commands :as commands]
-         '[clojure.string :as str])
-
+         '[slack-mud.commands :as commands])
 
 (defmulti handler
   (fn[x y e] (x :type)))
