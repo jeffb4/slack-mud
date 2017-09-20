@@ -36,7 +36,7 @@
 (defn load-command
   "Load a command file, returns updated command map"
   [commands file]
-  (prn file)
+  (log/debug "In load-command:" [commands file])
   (let [command_file file
         command (read-string (slurp (.getAbsolutePath command_file)))
         command_id (str/replace (.getName file) #"\.clj" "")
