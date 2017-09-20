@@ -1,7 +1,7 @@
 (ns slack-mud.commands)
 
-(require
-  '[clojure.string :as str])
+(require '[clojure.string :as str]
+         '[clojure.tools.logging :as log])
 
 (def commands (ref {:aliases []}))
 
