@@ -37,20 +37,20 @@
                   :text (:text message)})))))
 
 (defmethod handler "hello" [message conn error]
-  (println "Received hello"))
+  (log/info "Received hello"))
 
 (defmethod handler "presence_change" [message conn error]
-  (println "Received presence change"))
+  (log/info "Received presence change"))
 
 (defmethod handler "reconnect_url" [message conn error]
-  (println "Received new reconnect URL")
+  (log/info "Received new reconnect URL")
   (config/update-wsurl (:url message)))
 
 (defmethod handler "desktop_notification" [message conn error]
-  (println "Discarding desktop_notification"))
+  (log/debug "Discarding desktop_notification"))
 
 (defmethod handler :default [message conn error]
-  (print "Receive unknown message type")
+  (log/warn "Receive unknown message type:" message conn error)
   (if (= message {})
     (do
       (log/error "Received empty message, error")
