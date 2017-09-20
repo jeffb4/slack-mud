@@ -47,3 +47,15 @@
     (do
       (println "Received empty message, error")
       (deliver error "Empty"))))
+
+(defn send_message
+  [message user]
+  (log/info "In send_message" [message user])
+  (let [conn (:conn user)
+        channel (:channel user)]
+    (s/put!
+      conn
+      (generate-string
+        {:type "message"
+          :channel channel
+          :text message}))))
