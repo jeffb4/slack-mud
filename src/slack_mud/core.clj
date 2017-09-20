@@ -5,6 +5,7 @@
          '[aleph.http :as http]
          '[manifold.stream :as s]
          '[cheshire.core :refer :all]
+         '[clojure.tools.logging :as log]
          '[slack-mud.rooms :as rooms]
          '[slack-mud.config :as config]
          '[slack-mud.message-handler :as message-handler]
