@@ -34,4 +34,4 @@
                 (message-handler/handler parsed_message conn error)))
             conn)
           @error)))
-    (println "True evaluated to false")))
+    (log/error "True evaluated to false")))
