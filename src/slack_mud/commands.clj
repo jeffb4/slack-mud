@@ -6,8 +6,8 @@
 (def commands (ref {:aliases {}}))
 
 ; List of commands allowed for various user types
-(def commands_lists (ref {:player #{"repl" "look"}
-                          :admin #{"repl" "look"}}))
+(def commands_lists (ref {:player #{"repl" "look" "hello" "quit"}
+                          :admin #{"repl" "look" "hello" "quit"}}))
 
 (defn parse-command
   "Parse and run a command from a user, given a command string and user"
