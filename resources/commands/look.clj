@@ -6,7 +6,7 @@
           (try
             (doall
               (map
-                #(slack-mud.message-handler/send_message
+                #(slack-mud.message-handler/user_message
                     % user)
                 [(str "Short: " (:shortdesc room))
                  (str "Desc: " (:desc room))]))

@@ -66,13 +66,21 @@
       (deliver error "Empty"))))
 
 (defn send_message
-  [message user]
-  (log/info "In send_message" [message user])
-  (let [conn (:conn user)
-        channel (:channel user)]
+  [message]
+  (log/info "In send_message" [message])
+  (let [slack-message {:type "message"
+                       :channel (:channel message)
+                       :text (:text message)}
+        conn (:conn message)]
     (s/put!
       conn
-      (generate-string
-        {:type "message"
-          :channel channel
-          :text message}))))
+      (generate-string slack-message))))
+
+(defn user_message
+  [message user]
+  (log/info "In user_message" [message user])
+  (let [conn (:conn user)
+        channel (:channel user)]
+    (send_message {:text message
+                   :conn conn
+                   :channel channel})))
