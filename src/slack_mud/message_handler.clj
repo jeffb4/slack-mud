@@ -29,18 +29,18 @@
             (= (get message :reply_to nil) 0)
             (re-matches #"is currently in Do Not Disturb mode" (:text message)))
     (do
-      (commands/parse-command
-        (:text message)
-        (assoc (get @users/users (:user message))
-              :conn conn
-              :channel (:channel message)))
-
-      ; stupid echo debugger
-      (s/put! conn
-              (generate-string
-                {:type "message"
-                  :channel (:channel message)
-                  :text (:text message)})))))
+      (if-not
+        (commands/parse-command
+          (:text message)
+          (assoc (get @users/users (:user message))
+                :conn conn
+                :channel (:channel message)))
+        ; stupid echo debugger
+        (s/put! conn
+                (generate-string
+                  {:type "message"
+                    :channel (:channel message)
+                    :text (:text message)}))))))
 
 (defmethod handler "hello" [message conn error]
   (log/info "Received hello"))
